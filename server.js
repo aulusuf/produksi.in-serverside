@@ -28,6 +28,7 @@ app.listen(PORT, () => {
 
 const db = require("./app/models");
 const Role = db.role;
+const User = db.user
 db.sequelize.sync({ force: true }).then(() => {
   console.log("Drop and Resync Db");
   initial();
@@ -46,4 +47,22 @@ function initial() {
     id: 3,
     name: "Tim Produksi",
   });
+  User.create({
+    id: 1,
+    username: "laem",
+    email: "laem@mail.id",
+    password: "12345678"
+  })
+  User.create({
+    id: 2,
+    username: "resdzmon",
+    email: "resdzmon@mail.id",
+    password: "12345678"
+  })
+  User.create({
+    id: 3,
+    username: "budy",
+    email: "budy@mail.id",
+    password: "12345678"
+  })
 }
