@@ -1,0 +1,9 @@
+POST http://localhost:8080/api/auth/signup
+
+{
+    "username": "test",
+    "email": "iniemailmanajemen@gmail.com",
+    "name": "Saya Manajemen",
+    "password": "12345678",
+    "roleId": "1"
+}

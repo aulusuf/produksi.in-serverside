@@ -9,6 +9,62 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
+  if(!req.body.username || !req.body.name || !req.body.password || !req.body.role){
+    res.status(400).send({
+      message: "Field cannot be empty"
+    })
+    return
+  }
+
+  const body = {
+    username: req.body.username,
+    name: req.body.name,
+    password: bcrypt.hash(req.body.password, 10),
+    roleId: req.body.roleId
+  }
+  User.create(body)
+  .then((data)=> {
+    if(req.body.roles){
+      Role.findOne({
+        where: {
+          id: 1
+        }
+      })
+      .then((data)=>{
+        res.send(data, "Terdaftar sebagai manajemen")
+      })
+    }
+    if(req.body.roles){
+      Role.findOne({
+        where: {
+          id: 2
+        }
+      })
+      .then((data)=>{
+        res.send(data, "Terdaftar sebagai Supervisor")
+      })
+    }
+    if(req.body.roles){
+      Role.findOne({
+        where: {
+          id: 3
+        }
+      })
+      .then((data)=>{
+        res.send(data, "Terdaftar sebagai Tim Produksi")
+      })
+    }
+    res.send(data, "Berhasil mendaftar")
+  })
+  .catch((err)=> {
+    res.status(500).send({
+      message: err.message || "Error to create"
+    })
+  })
+  console.log(req.body.username)
+}
+/*
+exports.signup = (req, res) => {
   User.create({
     username: req.body.username,
     email: req.body.email,
@@ -37,6 +93,24 @@ exports.signup = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+*/
+
+
+exports.signin = (req, res) => {
+  User.findOne({
+    where: {
+      username: req.body.username
+    }
+  })
+  .then((user) => {
+    if(!user) return res.status(404).send({ message: err.message || "User not found"});
+    let passwordIsValid = bcrypt.compare(req.body.password, user.password);
+    if(!passwordIsValid) return res.status(401).send({ accessToken: null, message: err.message || "Invalid password"});
+    let token = jwt.sign({ id:user.id }, config.secret, {expiresIn: 86400})
+    let authorities = []
+
+  })
+}
 
 exports.signin = (req, res) => {
   User.findOne({

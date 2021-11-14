@@ -3,12 +3,15 @@ module.exports = (sequelize, Sequelize) => {
     username: {
       type: Sequelize.STRING,
     },
-    email: {
+    name: {
       type: Sequelize.STRING,
     },
     password: {
       type: Sequelize.STRING,
     },
+    roleId: {
+      type: Sequelize.INTEGER,
+    }
   });
   return User;
 };

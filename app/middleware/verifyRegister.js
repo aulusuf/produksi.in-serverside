@@ -2,25 +2,25 @@ const db = require("../models");
 const ROLES = db.ROLES;
 const User = db.user;
 
-checkDuplicate = (request, respond, next) => {
+checkDuplicate = (req, res, next) => {
   User.findOne({
     where: {
-      username: request.body.username,
+      username: req.body.username,
     },
   }).then((user) => {
     if (user) {
-      respond.status(400).send({
+      res.status(400).send({
         message: "Username already taken",
       });
       return;
     }
     User.findOne({
       where: {
-        email: request.body.email,
+        email: req.body.email,
       },
     }).then((user) => {
       if (user) {
-        respond.status(400).send({
+        res.status(400).send({
           message: "Email already registered",
         });
         return;
