@@ -10,7 +10,8 @@ module.exports = (sequelize, Sequelize) => {
             name: Sequelize.STRING,
             stock: Sequelize.INTEGER,
             cost: Sequelize.INTEGER,
-            typeId: Sequelize.INTEGER
+            typeId: Sequelize.INTEGER,
+            unitId: Sequelize.INTEGER
         }
     )
     return Material
@@ -21,4 +22,5 @@ module.exports = (sequelize, Sequelize) => {
     stock
     cost
     typeId
+    unitId
 */

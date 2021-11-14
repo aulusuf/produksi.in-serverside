@@ -1,0 +1,22 @@
+const db = require('../models');
+const Type = db.type;
+const Op = db.sequelize.Op;
+
+exports.create = (req, res) => {
+    
+}
+exports.findAll = (req, res) => {
+
+}
+exports.findOne = (req, res) => {
+
+}
+exports.update = (req, res) => {
+
+}
+exports.updateStatus = (req, res) => {
+
+}
+exports.delete = (req, res) => {
+
+}

@@ -15,8 +15,17 @@ app.use(cors({
 }))
 
 // routes
-require('./app/routes/user.routes')(app)
+
+require('./app/routes/material.routes')(app)
+require('./app/routes/unit.routes')(app)
+// require('./app/routes/product.routes')(app)
+// require('./app/routes/product_assignment.routes')(app)
+// require('./app/routes/material_request.routes')(app)
+require('./app/routes/role.routes')(app)
 require('./app/routes/auth.routes')(app)
+require('./app/routes/type.routes')(app)
+require('./app/routes/category.routes')(app)
+require('./app/routes/user.routes')(app)
 
 
 app.listen(PORT, ()=>{
@@ -28,7 +37,6 @@ app.get("/", (req, res) => {
   
 
 const db = require('./app/models');
-const { user } = require('./app/models');
 const Role = db.role;
 const User = db.user;
 
