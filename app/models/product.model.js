@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-    const Material = sequelize.define(
-        'materials',
+    const Product = sequelize.define(
+        'products',
         {
             id: {
                 type: Sequelize.INTEGER,
@@ -9,16 +9,14 @@ module.exports = (sequelize, Sequelize) => {
             },
             name: Sequelize.STRING,
             stock: Sequelize.INTEGER,
-            cost: Sequelize.INTEGER,
-            typeId: Sequelize.INTEGER
+            categoryId: Sequelize.INTEGER
         }
     )
-    return Material
+    return Product
 }
 /*
     id
     name
     stock
-    cost
-    typeId
+    categoryId
 */
