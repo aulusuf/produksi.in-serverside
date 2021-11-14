@@ -96,21 +96,7 @@ exports.signup = (req, res) => {
 */
 
 
-exports.signin = (req, res) => {
-  User.findOne({
-    where: {
-      username: req.body.username
-    }
-  })
-  .then((user) => {
-    if(!user) return res.status(404).send({ message: err.message || "User not found"});
-    let passwordIsValid = bcrypt.compare(req.body.password, user.password);
-    if(!passwordIsValid) return res.status(401).send({ accessToken: null, message: err.message || "Invalid password"});
-    let token = jwt.sign({ id:user.id }, config.secret, {expiresIn: 86400})
-    let authorities = []
 
-  })
-}
 
 exports.signin = (req, res) => {
   User.findOne({

@@ -1,26 +1,56 @@
-const config = require("../config/db.config");
-
-const Sequelize = require("sequelize");
-
+const config = require('../config/db.config')
+const Sequelize = require('sequelize')
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
-  HOST: config.HOST,
-  dialect: config.dialect,
-  operatorsAliases: false,
-  // pool ?
-});
+    HOST: config.HOST,
+    dialect: config.dialect,
+    operatorAliases: false
+})
 
-const db = {};
+const db = {}
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+db.Sequelize = Sequelize
+db.sequelize = sequelize
 
-db.user = require("../models/user.model")(sequelize, Sequelize);
-db.role = require("../models/role.model")(sequelize, Sequelize);
+db.category = require('../models/category.model')(sequelize, Sequelize)
+db.material_request = require('../models/material_request.model')(sequelize, Sequelize)
+db.material = require('../models/material.model')(sequelize, Sequelize)
+db.product_assignment = require('../models/product_assignment.model')(sequelize, Sequelize)
+db.product = require('../models/product.model')(sequelize, Sequelize)
+db.role = require('../models/role.model')(sequelize, Sequelize)
+db.status = require('../models/status.model')(sequelize, Sequelize)
+db.type = require('../models/type.model')(sequelize, Sequelize)
+db.user = require('../models/user.model')(sequelize, Sequelize)
 
+// RELATIONSHIP
+db.product.belongsTo(db.category, {
+    foreignKey: 'categoryId',
+    as: 'productCategory'
+})
+db.product.belongsToMany(db.material, {
+    through: 'products_materials',
+    foreignKey: 'productId'
+})
+db.material.belongsTo(db.type, {foreignKey: 'typeId'})
+db.material.belongsToMany(db.product, {
+    through: 'products_materials',
+    foreignKey: 'materialId',
+})
 db.user.belongsTo(db.role, {
-  foreignKey: "roleId",
-});
+    foreignKey: 'roleId',
+    as: 'userRole'
+})
+db.user.belongsToMany(db.product_assignment, {
+    through: 'user_productAssignment',
+    foreignKey: 'userId'
+})
+db.product_assignment.belongsTo(db.status, {foreignKey: 'statusId'})
+db.product_assignment.belongsTo(db.product, {foreignKey: 'productId'})
+db.product_assignment.belongsToMany(db.user, {
+    through: 'user_productAssignment',
+    foreignKey: 'assignmentId'
+})
+db.material_request.belongsTo(db.status, {through: 'statusId'})
+db.material_request.belongsTo(db.material, {through: 'materialId'})
+db.material_request.belongsTo(db.user, {through: 'userId'})
 
-db.ROLES = ["Manajemen", "Supervisor", "Tim Produksi"];
-
-module.exports = db;
+module.exports = db
