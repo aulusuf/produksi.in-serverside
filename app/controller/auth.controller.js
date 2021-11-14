@@ -27,7 +27,7 @@ exports.signup = (req, res) => {
   }
 
   User.create(body)
-  .then((data)=> {
+  .then(()=> {
     if(req.body.roleId){
       Role.findOne({
         where: {
@@ -88,17 +88,13 @@ exports.signin = (req, res, err) => {
       let token = jwt.sign({ id:user.id }, config.secret, {
         expiresIn: 86400
       })
-
-      let authorities = []
-      user.getUserRole().then((roles)=>{
-        for(let i = 0; i < roles.length; i++) {
-          authorities.push('Role as' + roles[i].name)
-        }
+      user.getUserRole().then((role)=>{
+        console.log(role)
         res.status(200).send({
           id:user.id,
           username: user.username,
           email: user.email,
-          role: authorities,
+          role: [role.id, role.name],
           accessToken: token
         })
       })
