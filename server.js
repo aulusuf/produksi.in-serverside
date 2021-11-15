@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 // const bcrypt = require('bcryptjs');
 const bodyParser = require("body-parser");
 
@@ -27,6 +27,7 @@ require("./app/routes/user.routes")(app); //
 app.listen(PORT, () => {
   console.log(PORT);
 });
+
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the jungle" });
 });
