@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
             productId: Sequelize.INTEGER,
             materialId: Sequelize.INTEGER,
             statusId: Sequelize.INTEGER,
-            jumlah: Sequelize.INTEGER,
+            amount: Sequelize.INTEGER,
         }
     )
     return MaterialRequest

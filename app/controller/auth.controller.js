@@ -23,7 +23,8 @@ exports.signup = (req, res) => {
     email: req.body.email,
     username: req.body.username,
     password: bcrypt.hashSync(req.body.password, 10),
-    roleId: req.body.roleId
+    roleId: req.body.roleId,
+    image: req.body.image
   }
 
   User.create(body)

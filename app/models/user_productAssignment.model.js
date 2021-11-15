@@ -1,19 +1,15 @@
 module.exports = (sequelize, Sequelize) => {
-    const Category = sequelize.define(
-        'categories',
+    const UserProductAssignment = sequelize.define(
+        'user_productAssignment',
         {
             id: {
                 type: Sequelize.INTEGER,
                 autoIncrement:true,
                 primaryKey: true
             },
-            name: Sequelize.STRING,
-            image: Sequelize.BLOB,
+            userId: Sequelize.INTEGER,
+            assignmentId: Sequelize.INTEGER,
         }
     )
-    return Category
+    return UserProductAssignment
 }
-/*
-    id
-    name
-*/

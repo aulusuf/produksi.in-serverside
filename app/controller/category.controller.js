@@ -8,7 +8,8 @@ exports.create = (req, res) => {
         return
     }
     const body = {
-        name: req.body.name
+        name: req.body.name,
+        image: req.body.image
     }
     // console.log(body)
 

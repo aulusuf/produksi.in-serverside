@@ -60,3 +60,18 @@ exports.deleteOne = (req, res) => {
         res.status(500).send({ message: "Error on deleting user" })
     })
 }
+exports.findByRole = (req, res) => {
+    const roleId = req.params.roleId
+
+    User.findAll(roleId)
+    .then((data)=>{
+        if(data){
+            res.send(data)
+        } else {
+            res.status(404).send({ message: "No users found" });
+        }
+    })
+    .catch((err)=>{
+        res.status(500).send({ message: err.message})
+    })
+}

@@ -11,7 +11,8 @@ module.exports = (sequelize, Sequelize) => {
             stock: Sequelize.INTEGER,
             cost: Sequelize.INTEGER,
             typeId: Sequelize.INTEGER,
-            unitId: Sequelize.INTEGER
+            unitId: Sequelize.INTEGER,
+            image: Sequelize.BLOB,
         }
     )
     return Material

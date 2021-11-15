@@ -12,6 +12,7 @@ exports.create = (req, res) => {
         stock: req.body.stock,
         cost: req.body.cost,
         typeId: req.body.typeId,
+        image: req.body.image
     }
     // console.log(body)
 
