@@ -5,7 +5,7 @@
 -- Dumped from database version 14.1
 -- Dumped by pg_dump version 14.1
 
--- Started on 2021-11-14 16:37:21
+-- Started on 2021-11-15 11:59:39
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,13 +23,14 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 210 (class 1259 OID 22019)
+-- TOC entry 210 (class 1259 OID 38807)
 -- Name: categories; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.categories (
     id integer NOT NULL,
     name character varying(255),
+    image bytea,
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL
 );
@@ -38,7 +39,7 @@ CREATE TABLE public.categories (
 ALTER TABLE public.categories OWNER TO postgres;
 
 --
--- TOC entry 209 (class 1259 OID 22018)
+-- TOC entry 209 (class 1259 OID 38806)
 -- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -54,7 +55,7 @@ CREATE SEQUENCE public.categories_id_seq
 ALTER TABLE public.categories_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3416 (class 0 OID 0)
+-- TOC entry 3425 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -63,7 +64,7 @@ ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 
 
 --
--- TOC entry 221 (class 1259 OID 22071)
+-- TOC entry 222 (class 1259 OID 38873)
 -- Name: material_requests; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -72,7 +73,7 @@ CREATE TABLE public.material_requests (
     "productId" integer,
     "materialId" integer,
     "statusId" integer,
-    jumlah integer,
+    amount integer,
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL,
     "userId" integer
@@ -82,7 +83,7 @@ CREATE TABLE public.material_requests (
 ALTER TABLE public.material_requests OWNER TO postgres;
 
 --
--- TOC entry 220 (class 1259 OID 22070)
+-- TOC entry 221 (class 1259 OID 38872)
 -- Name: material_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -98,8 +99,8 @@ CREATE SEQUENCE public.material_requests_id_seq
 ALTER TABLE public.material_requests_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3417 (class 0 OID 0)
--- Dependencies: 220
+-- TOC entry 3426 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: material_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -107,7 +108,7 @@ ALTER SEQUENCE public.material_requests_id_seq OWNED BY public.material_requests
 
 
 --
--- TOC entry 214 (class 1259 OID 22033)
+-- TOC entry 215 (class 1259 OID 38828)
 -- Name: materials; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -117,6 +118,8 @@ CREATE TABLE public.materials (
     stock integer,
     cost integer,
     "typeId" integer,
+    "unitId" integer,
+    image bytea,
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL
 );
@@ -125,7 +128,7 @@ CREATE TABLE public.materials (
 ALTER TABLE public.materials OWNER TO postgres;
 
 --
--- TOC entry 213 (class 1259 OID 22032)
+-- TOC entry 214 (class 1259 OID 38827)
 -- Name: materials_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -141,8 +144,8 @@ CREATE SEQUENCE public.materials_id_seq
 ALTER TABLE public.materials_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3418 (class 0 OID 0)
--- Dependencies: 213
+-- TOC entry 3427 (class 0 OID 0)
+-- Dependencies: 214
 -- Name: materials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -150,7 +153,7 @@ ALTER SEQUENCE public.materials_id_seq OWNED BY public.materials.id;
 
 
 --
--- TOC entry 225 (class 1259 OID 22105)
+-- TOC entry 226 (class 1259 OID 38914)
 -- Name: product_assignments; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -169,7 +172,7 @@ CREATE TABLE public.product_assignments (
 ALTER TABLE public.product_assignments OWNER TO postgres;
 
 --
--- TOC entry 224 (class 1259 OID 22104)
+-- TOC entry 225 (class 1259 OID 38913)
 -- Name: product_assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -185,8 +188,8 @@ CREATE SEQUENCE public.product_assignments_id_seq
 ALTER TABLE public.product_assignments_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3419 (class 0 OID 0)
--- Dependencies: 224
+-- TOC entry 3428 (class 0 OID 0)
+-- Dependencies: 225
 -- Name: product_assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -194,7 +197,7 @@ ALTER SEQUENCE public.product_assignments_id_seq OWNED BY public.product_assignm
 
 
 --
--- TOC entry 223 (class 1259 OID 22093)
+-- TOC entry 224 (class 1259 OID 38895)
 -- Name: products; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -202,7 +205,10 @@ CREATE TABLE public.products (
     id integer NOT NULL,
     name character varying(255),
     stock integer,
+    cost integer,
     "categoryId" integer,
+    "unitId" integer,
+    image bytea,
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL
 );
@@ -211,7 +217,7 @@ CREATE TABLE public.products (
 ALTER TABLE public.products OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 22092)
+-- TOC entry 223 (class 1259 OID 38894)
 -- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -227,8 +233,8 @@ CREATE SEQUENCE public.products_id_seq
 ALTER TABLE public.products_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3420 (class 0 OID 0)
--- Dependencies: 222
+-- TOC entry 3429 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -236,7 +242,7 @@ ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
 
 
 --
--- TOC entry 226 (class 1259 OID 22121)
+-- TOC entry 228 (class 1259 OID 38945)
 -- Name: products_materials; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -251,7 +257,7 @@ CREATE TABLE public.products_materials (
 ALTER TABLE public.products_materials OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 22051)
+-- TOC entry 218 (class 1259 OID 38853)
 -- Name: roles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -266,7 +272,7 @@ CREATE TABLE public.roles (
 ALTER TABLE public.roles OWNER TO postgres;
 
 --
--- TOC entry 216 (class 1259 OID 22045)
+-- TOC entry 217 (class 1259 OID 38847)
 -- Name: statuses; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -281,7 +287,7 @@ CREATE TABLE public.statuses (
 ALTER TABLE public.statuses OWNER TO postgres;
 
 --
--- TOC entry 215 (class 1259 OID 22044)
+-- TOC entry 216 (class 1259 OID 38846)
 -- Name: statuses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -297,8 +303,8 @@ CREATE SEQUENCE public.statuses_id_seq
 ALTER TABLE public.statuses_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3421 (class 0 OID 0)
--- Dependencies: 215
+-- TOC entry 3430 (class 0 OID 0)
+-- Dependencies: 216
 -- Name: statuses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -306,7 +312,7 @@ ALTER SEQUENCE public.statuses_id_seq OWNED BY public.statuses.id;
 
 
 --
--- TOC entry 212 (class 1259 OID 22026)
+-- TOC entry 213 (class 1259 OID 38821)
 -- Name: types; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -321,7 +327,7 @@ CREATE TABLE public.types (
 ALTER TABLE public.types OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 22025)
+-- TOC entry 212 (class 1259 OID 38820)
 -- Name: types_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -337,8 +343,8 @@ CREATE SEQUENCE public.types_id_seq
 ALTER TABLE public.types_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3422 (class 0 OID 0)
--- Dependencies: 211
+-- TOC entry 3431 (class 0 OID 0)
+-- Dependencies: 212
 -- Name: types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -346,11 +352,26 @@ ALTER SEQUENCE public.types_id_seq OWNED BY public.types.id;
 
 
 --
--- TOC entry 227 (class 1259 OID 22136)
--- Name: user_productAssignment; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 211 (class 1259 OID 38815)
+-- Name: units; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public."user_productAssignment" (
+CREATE TABLE public.units (
+    id integer NOT NULL,
+    name character varying(255),
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.units OWNER TO postgres;
+
+--
+-- TOC entry 227 (class 1259 OID 38930)
+-- Name: user_productAssignments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."user_productAssignments" (
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL,
     "userId" integer NOT NULL,
@@ -358,10 +379,10 @@ CREATE TABLE public."user_productAssignment" (
 );
 
 
-ALTER TABLE public."user_productAssignment" OWNER TO postgres;
+ALTER TABLE public."user_productAssignments" OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 22057)
+-- TOC entry 220 (class 1259 OID 38859)
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -372,6 +393,7 @@ CREATE TABLE public.users (
     username character varying(255),
     password character varying(255),
     "roleId" integer,
+    image bytea,
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL
 );
@@ -380,7 +402,7 @@ CREATE TABLE public.users (
 ALTER TABLE public.users OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 22056)
+-- TOC entry 219 (class 1259 OID 38858)
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -396,8 +418,8 @@ CREATE SEQUENCE public.users_id_seq
 ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3423 (class 0 OID 0)
--- Dependencies: 218
+-- TOC entry 3432 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -405,7 +427,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- TOC entry 3211 (class 2604 OID 22022)
+-- TOC entry 3215 (class 2604 OID 38810)
 -- Name: categories id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -413,7 +435,7 @@ ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.c
 
 
 --
--- TOC entry 3216 (class 2604 OID 22074)
+-- TOC entry 3220 (class 2604 OID 38876)
 -- Name: material_requests id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -421,7 +443,7 @@ ALTER TABLE ONLY public.material_requests ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 3213 (class 2604 OID 22036)
+-- TOC entry 3217 (class 2604 OID 38831)
 -- Name: materials id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -429,7 +451,7 @@ ALTER TABLE ONLY public.materials ALTER COLUMN id SET DEFAULT nextval('public.ma
 
 
 --
--- TOC entry 3218 (class 2604 OID 22108)
+-- TOC entry 3222 (class 2604 OID 38917)
 -- Name: product_assignments id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -437,7 +459,7 @@ ALTER TABLE ONLY public.product_assignments ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
--- TOC entry 3217 (class 2604 OID 22096)
+-- TOC entry 3221 (class 2604 OID 38898)
 -- Name: products id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -445,7 +467,7 @@ ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.pro
 
 
 --
--- TOC entry 3214 (class 2604 OID 22048)
+-- TOC entry 3218 (class 2604 OID 38850)
 -- Name: statuses id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -453,7 +475,7 @@ ALTER TABLE ONLY public.statuses ALTER COLUMN id SET DEFAULT nextval('public.sta
 
 
 --
--- TOC entry 3212 (class 2604 OID 22029)
+-- TOC entry 3216 (class 2604 OID 38824)
 -- Name: types id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -461,7 +483,7 @@ ALTER TABLE ONLY public.types ALTER COLUMN id SET DEFAULT nextval('public.types_
 
 
 --
--- TOC entry 3215 (class 2604 OID 22060)
+-- TOC entry 3219 (class 2604 OID 38862)
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -469,58 +491,73 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- TOC entry 3393 (class 0 OID 22019)
+-- TOC entry 3401 (class 0 OID 38807)
 -- Dependencies: 210
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.categories (id, name, "createdAt", "updatedAt") FROM stdin;
+COPY public.categories (id, name, image, "createdAt", "updatedAt") FROM stdin;
+1	Aksesoris	\N	2021-11-15 11:55:31.044+07	2021-11-15 11:55:31.044+07
+2	Tas	\N	2021-11-15 11:55:31.045+07	2021-11-15 11:55:31.045+07
+3	Baju	\N	2021-11-15 11:55:31.045+07	2021-11-15 11:55:31.045+07
 \.
 
 
 --
--- TOC entry 3404 (class 0 OID 22071)
--- Dependencies: 221
+-- TOC entry 3413 (class 0 OID 38873)
+-- Dependencies: 222
 -- Data for Name: material_requests; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.material_requests (id, "productId", "materialId", "statusId", jumlah, "createdAt", "updatedAt", "userId") FROM stdin;
+COPY public.material_requests (id, "productId", "materialId", "statusId", amount, "createdAt", "updatedAt", "userId") FROM stdin;
+1	1	2	1	300	2021-11-15 11:55:31.049+07	2021-11-15 11:55:31.049+07	\N
+2	3	3	1	300	2021-11-15 11:55:31.049+07	2021-11-15 11:55:31.049+07	\N
+3	2	3	1	300	2021-11-15 11:55:31.049+07	2021-11-15 11:55:31.049+07	\N
 \.
 
 
 --
--- TOC entry 3397 (class 0 OID 22033)
--- Dependencies: 214
+-- TOC entry 3406 (class 0 OID 38828)
+-- Dependencies: 215
 -- Data for Name: materials; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.materials (id, name, stock, cost, "typeId", "createdAt", "updatedAt") FROM stdin;
+COPY public.materials (id, name, stock, cost, "typeId", "unitId", image, "createdAt", "updatedAt") FROM stdin;
+1	Kain perca	200	10000	1	2	\N	2021-11-15 11:55:31.048+07	2021-11-15 11:55:31.048+07
+2	benang	4000	200	1	3	\N	2021-11-15 11:55:31.049+07	2021-11-15 11:55:31.049+07
+3	Resleting	300	100	1	3	\N	2021-11-15 11:55:31.049+07	2021-11-15 11:55:31.049+07
 \.
 
 
 --
--- TOC entry 3408 (class 0 OID 22105)
--- Dependencies: 225
+-- TOC entry 3417 (class 0 OID 38914)
+-- Dependencies: 226
 -- Data for Name: product_assignments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.product_assignments (id, "productId", amount, cost, "statusId", "assignmentId", "createdAt", "updatedAt") FROM stdin;
+1	1	3	19999	1	2	2021-11-15 11:55:31.049+07	2021-11-15 11:55:31.049+07
+2	3	300	2300	1	3	2021-11-15 11:55:31.049+07	2021-11-15 11:55:31.049+07
+3	2	400	1000	1	3	2021-11-15 11:55:31.049+07	2021-11-15 11:55:31.049+07
 \.
 
 
 --
--- TOC entry 3406 (class 0 OID 22093)
--- Dependencies: 223
+-- TOC entry 3415 (class 0 OID 38895)
+-- Dependencies: 224
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.products (id, name, stock, "categoryId", "createdAt", "updatedAt") FROM stdin;
+COPY public.products (id, name, stock, cost, "categoryId", "unitId", image, "createdAt", "updatedAt") FROM stdin;
+1	Tas	300	100000	2	3	\N	2021-11-15 11:55:31.048+07	2021-11-15 11:55:31.048+07
+2	Jaket	900	90420	3	2	\N	2021-11-15 11:55:31.048+07	2021-11-15 11:55:31.048+07
+3	Gantungan kunci	540	1000	1	1	\N	2021-11-15 11:55:31.048+07	2021-11-15 11:55:31.048+07
 \.
 
 
 --
--- TOC entry 3409 (class 0 OID 22121)
--- Dependencies: 226
+-- TOC entry 3419 (class 0 OID 38945)
+-- Dependencies: 228
 -- Data for Name: products_materials; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -529,63 +566,84 @@ COPY public.products_materials ("createdAt", "updatedAt", "productId", "material
 
 
 --
--- TOC entry 3400 (class 0 OID 22051)
--- Dependencies: 217
+-- TOC entry 3409 (class 0 OID 38853)
+-- Dependencies: 218
 -- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.roles (id, name, "createdAt", "updatedAt") FROM stdin;
-1	Manajemen	2021-11-14 16:26:46.483+07	2021-11-14 16:26:46.483+07
-2	Supervisor	2021-11-14 16:26:46.484+07	2021-11-14 16:26:46.484+07
-3	Tim Produksi	2021-11-14 16:26:46.484+07	2021-11-14 16:26:46.484+07
+1	Manajemen	2021-11-15 11:55:31.042+07	2021-11-15 11:55:31.042+07
+2	Supervisor	2021-11-15 11:55:31.043+07	2021-11-15 11:55:31.043+07
+3	Tim Produksi	2021-11-15 11:55:31.043+07	2021-11-15 11:55:31.043+07
 \.
 
 
 --
--- TOC entry 3399 (class 0 OID 22045)
--- Dependencies: 216
+-- TOC entry 3408 (class 0 OID 38847)
+-- Dependencies: 217
 -- Data for Name: statuses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.statuses (id, name, "createdAt", "updatedAt") FROM stdin;
+1	Pending	2021-11-15 11:55:31.043+07	2021-11-15 11:55:31.043+07
+2	On going	2021-11-15 11:55:31.044+07	2021-11-15 11:55:31.044+07
+3	Done	2021-11-15 11:55:31.044+07	2021-11-15 11:55:31.044+07
+4	sent	2021-11-15 11:55:31.044+07	2021-11-15 11:55:31.044+07
+5	received	2021-11-15 11:55:31.044+07	2021-11-15 11:55:31.044+07
 \.
 
 
 --
--- TOC entry 3395 (class 0 OID 22026)
--- Dependencies: 212
+-- TOC entry 3404 (class 0 OID 38821)
+-- Dependencies: 213
 -- Data for Name: types; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.types (id, name, "createdAt", "updatedAt") FROM stdin;
+1	kain	2021-11-15 11:55:31.047+07	2021-11-15 11:55:31.047+07
+2	benang	2021-11-15 11:55:31.047+07	2021-11-15 11:55:31.047+07
+3	pernik	2021-11-15 11:55:31.047+07	2021-11-15 11:55:31.047+07
 \.
 
 
 --
--- TOC entry 3410 (class 0 OID 22136)
+-- TOC entry 3402 (class 0 OID 38815)
+-- Dependencies: 211
+-- Data for Name: units; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.units (id, name, "createdAt", "updatedAt") FROM stdin;
+1	pcs	2021-11-15 11:55:31.046+07	2021-11-15 11:55:31.046+07
+2	lusin	2021-11-15 11:55:31.046+07	2021-11-15 11:55:31.046+07
+3	kg	2021-11-15 11:55:31.046+07	2021-11-15 11:55:31.046+07
+\.
+
+
+--
+-- TOC entry 3418 (class 0 OID 38930)
 -- Dependencies: 227
--- Data for Name: user_productAssignment; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: user_productAssignments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."user_productAssignment" ("createdAt", "updatedAt", "userId", "assignmentId") FROM stdin;
+COPY public."user_productAssignments" ("createdAt", "updatedAt", "userId", "assignmentId") FROM stdin;
 \.
 
 
 --
--- TOC entry 3402 (class 0 OID 22057)
--- Dependencies: 219
+-- TOC entry 3411 (class 0 OID 38859)
+-- Dependencies: 220
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, email, username, password, "roleId", "createdAt", "updatedAt") FROM stdin;
-1	Farhan	farhan@mail.id	farhan	$2a$10$sVv13GZbILkxXG3jNaaXOenGmKVZmlIgonJSa.TV/ciB0gsVXWA4m	1	2021-11-14 16:26:46.485+07	2021-11-14 16:26:46.485+07
-2	Bambang	bambang@mail.id	bambang	$2a$10$sVv13GZbILkxXG3jNaaXOenGmKVZmlIgonJSa.TV/ciB0gsVXWA4m	2	2021-11-14 16:26:46.485+07	2021-11-14 16:26:46.485+07
-3	John	john@mail.id	john	$2a$10$sVv13GZbILkxXG3jNaaXOenGmKVZmlIgonJSa.TV/ciB0gsVXWA4m	3	2021-11-14 16:26:46.486+07	2021-11-14 16:26:46.486+07
+COPY public.users (id, name, email, username, password, "roleId", image, "createdAt", "updatedAt") FROM stdin;
+1	Farhan	farhan@mail.id	farhan	$2a$10$sVv13GZbILkxXG3jNaaXOenGmKVZmlIgonJSa.TV/ciB0gsVXWA4m	1	\N	2021-11-15 11:55:31.047+07	2021-11-15 11:55:31.047+07
+2	Bambang	bambang@mail.id	bambang	$2a$10$sVv13GZbILkxXG3jNaaXOenGmKVZmlIgonJSa.TV/ciB0gsVXWA4m	2	\N	2021-11-15 11:55:31.047+07	2021-11-15 11:55:31.047+07
+3	John	john@mail.id	john	$2a$10$sVv13GZbILkxXG3jNaaXOenGmKVZmlIgonJSa.TV/ciB0gsVXWA4m	3	\N	2021-11-15 11:55:31.048+07	2021-11-15 11:55:31.048+07
 \.
 
 
 --
--- TOC entry 3424 (class 0 OID 0)
+-- TOC entry 3433 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -594,44 +652,44 @@ SELECT pg_catalog.setval('public.categories_id_seq', 1, false);
 
 
 --
--- TOC entry 3425 (class 0 OID 0)
--- Dependencies: 220
+-- TOC entry 3434 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: material_requests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.material_requests_id_seq', 1, false);
+SELECT pg_catalog.setval('public.material_requests_id_seq', 3, true);
 
 
 --
--- TOC entry 3426 (class 0 OID 0)
--- Dependencies: 213
+-- TOC entry 3435 (class 0 OID 0)
+-- Dependencies: 214
 -- Name: materials_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.materials_id_seq', 1, false);
+SELECT pg_catalog.setval('public.materials_id_seq', 3, true);
 
 
 --
--- TOC entry 3427 (class 0 OID 0)
--- Dependencies: 224
+-- TOC entry 3436 (class 0 OID 0)
+-- Dependencies: 225
 -- Name: product_assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.product_assignments_id_seq', 1, false);
+SELECT pg_catalog.setval('public.product_assignments_id_seq', 3, true);
 
 
 --
--- TOC entry 3428 (class 0 OID 0)
--- Dependencies: 222
+-- TOC entry 3437 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.products_id_seq', 1, false);
+SELECT pg_catalog.setval('public.products_id_seq', 3, true);
 
 
 --
--- TOC entry 3429 (class 0 OID 0)
--- Dependencies: 215
+-- TOC entry 3438 (class 0 OID 0)
+-- Dependencies: 216
 -- Name: statuses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -639,8 +697,8 @@ SELECT pg_catalog.setval('public.statuses_id_seq', 1, false);
 
 
 --
--- TOC entry 3430 (class 0 OID 0)
--- Dependencies: 211
+-- TOC entry 3439 (class 0 OID 0)
+-- Dependencies: 212
 -- Name: types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -648,8 +706,8 @@ SELECT pg_catalog.setval('public.types_id_seq', 1, false);
 
 
 --
--- TOC entry 3431 (class 0 OID 0)
--- Dependencies: 218
+-- TOC entry 3440 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -657,7 +715,7 @@ SELECT pg_catalog.setval('public.users_id_seq', 3, true);
 
 
 --
--- TOC entry 3220 (class 2606 OID 22024)
+-- TOC entry 3224 (class 2606 OID 38814)
 -- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -666,7 +724,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 3232 (class 2606 OID 22076)
+-- TOC entry 3238 (class 2606 OID 38878)
 -- Name: material_requests material_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -675,7 +733,7 @@ ALTER TABLE ONLY public.material_requests
 
 
 --
--- TOC entry 3224 (class 2606 OID 22038)
+-- TOC entry 3230 (class 2606 OID 38835)
 -- Name: materials materials_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -684,7 +742,7 @@ ALTER TABLE ONLY public.materials
 
 
 --
--- TOC entry 3236 (class 2606 OID 22110)
+-- TOC entry 3242 (class 2606 OID 38919)
 -- Name: product_assignments product_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -693,7 +751,7 @@ ALTER TABLE ONLY public.product_assignments
 
 
 --
--- TOC entry 3238 (class 2606 OID 22125)
+-- TOC entry 3246 (class 2606 OID 38949)
 -- Name: products_materials products_materials_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -702,7 +760,7 @@ ALTER TABLE ONLY public.products_materials
 
 
 --
--- TOC entry 3234 (class 2606 OID 22098)
+-- TOC entry 3240 (class 2606 OID 38902)
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -711,7 +769,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 3228 (class 2606 OID 22055)
+-- TOC entry 3234 (class 2606 OID 38857)
 -- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -720,7 +778,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- TOC entry 3226 (class 2606 OID 22050)
+-- TOC entry 3232 (class 2606 OID 38852)
 -- Name: statuses statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -729,7 +787,7 @@ ALTER TABLE ONLY public.statuses
 
 
 --
--- TOC entry 3222 (class 2606 OID 22031)
+-- TOC entry 3228 (class 2606 OID 38826)
 -- Name: types types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -738,16 +796,25 @@ ALTER TABLE ONLY public.types
 
 
 --
--- TOC entry 3240 (class 2606 OID 22140)
--- Name: user_productAssignment user_productAssignment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 3226 (class 2606 OID 38819)
+-- Name: units units_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."user_productAssignment"
-    ADD CONSTRAINT "user_productAssignment_pkey" PRIMARY KEY ("userId", "assignmentId");
+ALTER TABLE ONLY public.units
+    ADD CONSTRAINT units_pkey PRIMARY KEY (id);
 
 
 --
--- TOC entry 3230 (class 2606 OID 22064)
+-- TOC entry 3244 (class 2606 OID 38934)
+-- Name: user_productAssignments user_productAssignments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."user_productAssignments"
+    ADD CONSTRAINT "user_productAssignments_pkey" PRIMARY KEY ("userId", "assignmentId");
+
+
+--
+-- TOC entry 3236 (class 2606 OID 38866)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -756,7 +823,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 3243 (class 2606 OID 22077)
+-- TOC entry 3250 (class 2606 OID 38879)
 -- Name: material_requests material_requests_materialId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -765,7 +832,7 @@ ALTER TABLE ONLY public.material_requests
 
 
 --
--- TOC entry 3244 (class 2606 OID 22082)
+-- TOC entry 3251 (class 2606 OID 38884)
 -- Name: material_requests material_requests_statusId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -774,7 +841,7 @@ ALTER TABLE ONLY public.material_requests
 
 
 --
--- TOC entry 3245 (class 2606 OID 22087)
+-- TOC entry 3252 (class 2606 OID 38889)
 -- Name: material_requests material_requests_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -783,7 +850,7 @@ ALTER TABLE ONLY public.material_requests
 
 
 --
--- TOC entry 3241 (class 2606 OID 22039)
+-- TOC entry 3247 (class 2606 OID 38836)
 -- Name: materials materials_typeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -792,7 +859,16 @@ ALTER TABLE ONLY public.materials
 
 
 --
--- TOC entry 3247 (class 2606 OID 22111)
+-- TOC entry 3248 (class 2606 OID 38841)
+-- Name: materials materials_unitId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.materials
+    ADD CONSTRAINT "materials_unitId_fkey" FOREIGN KEY ("unitId") REFERENCES public.units(id) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 3255 (class 2606 OID 38920)
 -- Name: product_assignments product_assignments_productId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -801,7 +877,7 @@ ALTER TABLE ONLY public.product_assignments
 
 
 --
--- TOC entry 3248 (class 2606 OID 22116)
+-- TOC entry 3256 (class 2606 OID 38925)
 -- Name: product_assignments product_assignments_statusId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -810,7 +886,7 @@ ALTER TABLE ONLY public.product_assignments
 
 
 --
--- TOC entry 3246 (class 2606 OID 22099)
+-- TOC entry 3253 (class 2606 OID 38903)
 -- Name: products products_categoryId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -819,7 +895,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 3250 (class 2606 OID 22131)
+-- TOC entry 3260 (class 2606 OID 38955)
 -- Name: products_materials products_materials_materialId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -828,7 +904,7 @@ ALTER TABLE ONLY public.products_materials
 
 
 --
--- TOC entry 3249 (class 2606 OID 22126)
+-- TOC entry 3259 (class 2606 OID 38950)
 -- Name: products_materials products_materials_productId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -837,25 +913,34 @@ ALTER TABLE ONLY public.products_materials
 
 
 --
--- TOC entry 3252 (class 2606 OID 22146)
--- Name: user_productAssignment user_productAssignment_assignmentId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 3254 (class 2606 OID 38908)
+-- Name: products products_unitId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public."user_productAssignment"
-    ADD CONSTRAINT "user_productAssignment_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES public.product_assignments(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- TOC entry 3251 (class 2606 OID 22141)
--- Name: user_productAssignment user_productAssignment_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."user_productAssignment"
-    ADD CONSTRAINT "user_productAssignment_userId_fkey" FOREIGN KEY ("userId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT "products_unitId_fkey" FOREIGN KEY ("unitId") REFERENCES public.units(id) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 3242 (class 2606 OID 22065)
+-- TOC entry 3258 (class 2606 OID 38940)
+-- Name: user_productAssignments user_productAssignments_assignmentId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."user_productAssignments"
+    ADD CONSTRAINT "user_productAssignments_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES public.product_assignments(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3257 (class 2606 OID 38935)
+-- Name: user_productAssignments user_productAssignments_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."user_productAssignments"
+    ADD CONSTRAINT "user_productAssignments_userId_fkey" FOREIGN KEY ("userId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3249 (class 2606 OID 38867)
 -- Name: users users_roleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -863,7 +948,7 @@ ALTER TABLE ONLY public.users
     ADD CONSTRAINT "users_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES public.roles(id) ON UPDATE CASCADE;
 
 
--- Completed on 2021-11-14 16:37:21
+-- Completed on 2021-11-15 11:59:39
 
 --
 -- PostgreSQL database dump complete
