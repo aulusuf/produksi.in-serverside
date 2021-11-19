@@ -91,6 +91,7 @@ exports.signin = (req, res, err) => {
         console.log(role);
         res.status(200).send({
           id: user.id,
+          name: user.name,
           username: user.username,
           email: user.email,
           role: [role.id, role.name],
