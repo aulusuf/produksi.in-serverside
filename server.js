@@ -23,6 +23,7 @@ require("./app/routes/unit.routes")(app); //
 require("./app/routes/type.routes")(app); //
 require("./app/routes/category.routes")(app); //
 require("./app/routes/user.routes")(app); //
+require("./app/routes/status.routes")(app); //
 
 app.listen(PORT, () => {
   console.log(PORT);
