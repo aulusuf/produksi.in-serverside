@@ -12,6 +12,7 @@ module.exports = (sequelize, Sequelize) => {
       username: Sequelize.STRING,
       password: Sequelize.STRING,
       roleId: Sequelize.INTEGER,
+
       image: Sequelize.BLOB,
     },
     {

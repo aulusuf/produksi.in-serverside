@@ -59,6 +59,7 @@ db.material.belongsToMany(db.product, {
 db.material.belongsTo(db.type, {
   //1 type many material
   foreignKey: "typeId",
+  as: "types",
 });
 db.material.belongsTo(db.unit, {
   //1 unit many material
