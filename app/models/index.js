@@ -99,6 +99,10 @@ db.material_request.belongsTo(db.user, {
   foreignKey: "userId",
   as: "users",
 });
+db.material_request.belongsTo(db.product, {
+  foreignKey: "productId",
+  as: "products",
+});
 // db.user_productAssignment.belongsTo(db.user, {
 //     foreignKey: 'userId',
 //     as: 'users'
