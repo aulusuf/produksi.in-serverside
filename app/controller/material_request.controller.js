@@ -11,7 +11,7 @@ exports.create = (req, res) => {
     productId: req.body.productId,
     materialId: req.body.materialId,
     statusId: req.body.statusId,
-    jumlah: req.body.jumlah,
+    amount: req.body.amount,
   };
   // console.log(body)
 
