@@ -1,6 +1,7 @@
 const db = require("../models");
 const ProductMaterial = db.products_materials;
-const Op = db.sequelize.Op;
+// const Op = db.sequelize.Op;
+const { Op } = require("sequelize");
 
 exports.create = (req, res) => {
   if (!req.body.name) {
@@ -25,11 +26,11 @@ exports.create = (req, res) => {
 };
 
 exports.findByProduct = (req, res) => {
-  const productId = req.query.productId;
-
-  let condition = productId ? { productId: { [Op.gte]: 0 } } : null;
-
-  ProductMaterial.findAll({ where: condition, include: [{ all: true }] })
+  const productId = req.params.productId;
+  ProductMaterial.findAll({
+    where: { productId },
+    include: [{ all: true }],
+  })
     .then((data) => {
       res.send(data);
     })
@@ -37,12 +38,13 @@ exports.findByProduct = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
 exports.findAll = (req, res) => {
-  const productId = req.query.productId;
+  // const productId = req.value;
 
-  let condition = productId ? { productId: { [Op.gte]: 0 } } : null;
+  // let condition = productId ? { productId: { [Op.gte]: 0 } } : null;
 
-  ProductMaterial.findAll({ where: condition, include: [{ all: true }] })
+  ProductMaterial.findAll({ include: [{ all: true }] })
     .then((data) => {
       res.send(data);
     })
