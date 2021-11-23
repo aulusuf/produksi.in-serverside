@@ -71,7 +71,7 @@ exports.findOne = (req, res) => {
       if (data) {
         res.send(data);
       } else {
-        res.status(404).send({ message: `Product not found` });
+        res.status(404).send({ message: `Assignment not found` });
       }
     })
     .catch((err) => {
