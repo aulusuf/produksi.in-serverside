@@ -24,6 +24,7 @@ require("./app/routes/type.routes")(app); //
 require("./app/routes/category.routes")(app); //
 require("./app/routes/user.routes")(app); //
 require("./app/routes/status.routes")(app); //
+require("./app/routes/products_materials.routes")(app); //
 
 app.listen(PORT, () => {
   console.log(PORT);

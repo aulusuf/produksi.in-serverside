@@ -31,6 +31,10 @@ db.role = require("../models/role.model")(sequelize, Sequelize);
 db.status = require("../models/status.model")(sequelize, Sequelize);
 db.type = require("../models/type.model")(sequelize, Sequelize);
 db.user = require("../models/user.model")(sequelize, Sequelize);
+db.products_materials = require("../models/product_material.model")(
+  sequelize,
+  Sequelize
+);
 
 // RELATIONSHIP
 // db.category.hasMany(db.product, {
@@ -46,16 +50,24 @@ db.product.belongsTo(db.unit, {
   foreignKey: "unitId",
   as: "units",
 });
-db.product.belongsToMany(db.material, {
-  //many category many product
-  through: "products_materials",
-  foreignKey: "productId",
+db.products_materials.belongsTo(db.product, {
+  foreginKey: "productId",
+  as: "product",
 });
-db.material.belongsToMany(db.product, {
-  //many product many material
-  through: "products_materials",
-  foreignKey: "materialId",
+db.products_materials.belongsTo(db.material, {
+  foreginKey: "materialId",
+  as: "material",
 });
+// db.product.belongsToMany(db.material, {
+//   //many category many product
+//   through: "products_materials",
+//   foreignKey: "productId",
+// });
+// db.material.belongsToMany(db.product, {
+//   //many product many material
+//   through: "products_materials",
+//   foreignKey: "materialId",
+// });
 db.material.belongsTo(db.type, {
   //1 type many material
   foreignKey: "typeId",

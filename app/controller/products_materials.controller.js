@@ -1,5 +1,5 @@
 const db = require("../models");
-const Product = db.product;
+const ProductMaterial = db.products_materials;
 const Op = db.sequelize.Op;
 
 exports.create = (req, res) => {
@@ -8,15 +8,14 @@ exports.create = (req, res) => {
     return;
   }
   const body = {
-    name: req.body.name,
-    stock: req.body.stock,
+    productId: req.body.productId,
+    materiald: req.body.materialId,
+    amount: req.body.amount,
     cost: req.body.cost,
-    categoryId: req.body.categoryId,
-    image: req.body.image,
   };
   // console.log(body)
 
-  Product.create(body)
+  ProductMaterial.create(body)
     .then((data) => {
       res.send(data);
     })
@@ -25,12 +24,25 @@ exports.create = (req, res) => {
     });
 };
 
+exports.findByProduct = (req, res) => {
+  const productId = req.query.productId;
+
+  let condition = productId ? { productId: { [Op.gte]: 0 } } : null;
+
+  ProductMaterial.findAll({ where: condition, include: [{ all: true }] })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
 exports.findAll = (req, res) => {
-  const id = req.query.id;
+  const productId = req.query.productId;
 
-  let condition = id ? { id: { [Op.gte]: 0 } } : null;
+  let condition = productId ? { productId: { [Op.gte]: 0 } } : null;
 
-  Product.findAll({ where: condition, include: [{ all: true }] })
+  ProductMaterial.findAll({ where: condition, include: [{ all: true }] })
     .then((data) => {
       res.send(data);
     })
@@ -42,7 +54,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Product.findByPk(id, { include: [{ all: true }] })
+  ProductMaterial.findByPk(id, { include: [{ all: true }] })
     .then((data) => {
       if (data) {
         res.send(data);
@@ -57,7 +69,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Product.update(req.body, { where: { id: id } })
+  ProductMaterial.update(req.body, { where: { id: id } })
     .then((num) => {
       num == 1
         ? res.send({
@@ -72,7 +84,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Product.destroy({ where: { id: id } })
+  ProductMaterial.destroy({ where: { id: id } })
     .then((num) => {
       if (num == 1) {
         res.send({ message: "Delete Product Success" });
